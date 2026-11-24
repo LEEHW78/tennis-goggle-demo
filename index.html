@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>테니스 고글 데모</title>
+  <meta name="description" content="스마트 고글 테니스 타점 피드백 시스템의 소프트웨어 데모">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=42dot+Sans:wght@300..800&family=JetBrains+Mono:wght@500&display=swap">
+  <link rel="stylesheet" href="static/css/site.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-row">
+      <span class="nav-title">스마트 고글 테니스 타점 피드백</span>
+      <a class="nav-link" id="refs-link" href="#" target="_blank" rel="noopener">참고문헌</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- 첫 화면: 대표 데모 영상. 논문식 제목과 abstract는 두지 않는다. -->
+    <section class="wrap hero">
+      <div class="hero-card">
+        <div class="hero-meta">
+          <span class="mono-label">DEMO</span>
+          <span class="pill"><span class="dot"></span><span id="status">준비 중</span></span>
+        </div>
+        <h1 class="hero-title">타점 정확도를 소리로 피드백하는 테니스 고글</h1>
+        <p class="hero-sub" id="hero-sub">포스터에서 제안한 소프트웨어 파이프라인을 실제 테니스 영상으로 돌려 본 데모입니다.</p>
+        <figure class="frame">
+          <div class="media" data-src="static/media/hero.mp4|static/media/hero.gif" data-label="대표 데모 영상 자리 · hero.mp4 또는 hero.gif"></div>
+          <figcaption id="hero-cap"><strong>대표 데모.</strong> 설명을 작성 예정입니다.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 핵심 수치: 값은 static/js/data.js에서 채운다. 비어 있으면 '—'로 보인다. -->
+    <section class="wrap">
+      <div class="stats" id="stats"></div>
+    </section>
+
+    <section class="band">
+      <div class="wrap">
+        <h2 class="sec-title"><span class="sec-num">1</span>파이프라인</h2>
+        <p class="lead">고글은 촬영, 타구음 감지, 알림만 맡고 나머지 연산은 스마트폰이 맡습니다. 단계 옆의 시간은 데모에서 잰 값입니다.</p>
+        <ol class="steps" id="steps"></ol>
+        <figure class="frame latency">
+          <div class="latency-head">
+            <span class="block-title">임팩트에서 신호음까지</span>
+            <span class="latency-total" id="latency-total">측정 전</span>
+          </div>
+          <div class="latency-bar" id="latency-bar" aria-label="단계별 지연"></div>
+          <div class="latency-legend" id="latency-legend"></div>
+          <figcaption id="latency-cap">점선은 포스터의 목표 시간(1초)입니다.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="wrap section">
+      <h2 class="sec-title"><span class="sec-num">2</span>데모 영상</h2>
+      <div class="gallery">
+        <figure class="frame">
+          <div class="media" data-src="static/media/detect.mp4|static/media/detect.gif" data-label="공 검출 영상 자리 · detect.mp4 또는 detect.gif"></div>
+          <figcaption><strong>공 검출.</strong> 30 fps 영상에서 프레임마다 공 위치를 찾습니다.</figcaption>
+        </figure>
+        <figure class="frame">
+          <div class="media" data-src="static/media/impact.mp4|static/media/impact.gif" data-label="타점 복원 영상 자리 · impact.mp4 또는 impact.gif"></div>
+          <figcaption><strong>임팩트 순간 타점 복원.</strong> 타구음으로 찾은 임팩트 시각에 맞춰, 앞뒤 프레임의 궤적으로 그 순간의 공 위치를 추정합니다.</figcaption>
+        </figure>
+        <figure class="frame">
+          <div class="media" data-src="static/media/feedback.mp4|static/media/feedback.gif" data-label="판정·신호음 영상 자리 · feedback.mp4 또는 feedback.gif"></div>
+          <figcaption><strong>판정과 신호음.</strong> 개인 기준에서 가장 크게 벗어난 지표 하나만 짧은 신호음으로 알립니다.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="wrap">
+        <h2 class="sec-title"><span class="sec-num">3</span>측정 조건</h2>
+        <p class="lead">실제 고글 대신 쓴 장비와 영상, 모델, 반복 횟수입니다. 수치는 이 조건에서만 유효합니다.</p>
+        <dl class="conds" id="conds"></dl>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">과기글 연구포스터 「스마트 고글을 활용한 테니스 타점 측정 및 실시간 피드백 시스템」 데모 페이지</div>
+  </footer>
+
+  <script src="static/js/data.js"></script>
+  <script src="static/js/site.js"></script>
+</body>
+</html>
