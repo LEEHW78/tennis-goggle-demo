@@ -1,128 +1,22 @@
-/* 색·간격·모서리는 Project Page · Editorial 디자인 시스템 값을 따른다 (poster_ref/DESIGN_SYSTEM.md).
-   그 시스템의 글꼴(Inter, Source Serif 4)에는 한글이 없어서, 포스터와 같은 42dot Sans를 쓴다. */
 :root {
-  --bg: #ffffff;
   --panel: #f3f6f7;
-  --card: #ffffff;
   --ink: #10181f;
   --ink-2: #3a4853;
-  --ink-3: #6e7c87;
   --teal: #1a6e80;
-  --teal-dark: #134f5c;
-  --teal-tint: #e2eef1;
-  --line: #dce5e9;
   --line-strong: #c5d2d8;
-  --ball: #d4e34a;            /* 포스터의 공 연두. 강조 한 곳에만 쓴다 */
   --sans: "42dot Sans", "Pretendard Variable", Pretendard, -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
   --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
-  --content: 1040px;
-  --gutter: 16px;
 }
-@media (min-width: 720px) { :root { --gutter: 24px; } }
-
 * { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
-body {
-  margin: 0; background: var(--bg); color: var(--ink-2);
-  font-family: var(--sans); font-size: 16.5px; line-height: 1.68;
-  word-break: keep-all; overflow-wrap: break-word;
-}
-@media (min-width: 720px) { body { font-size: 17.5px; } }
-a { color: var(--teal); }
-strong { color: var(--ink); font-weight: 600; }
-.wrap { max-width: var(--content); margin: 0 auto; padding: 0 var(--gutter); }
-
-/* 내비 */
-.nav { position: sticky; top: 0; z-index: 10; background: rgba(255, 255, 255, 0.9);
-       backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
-.nav-row { display: flex; align-items: center; justify-content: space-between; height: 54px; gap: 12px; }
-.nav-title { font-weight: 700; color: var(--teal-dark); font-size: 15px; white-space: nowrap;
-             overflow: hidden; text-overflow: ellipsis; }
-.nav-link { font-size: 14px; font-weight: 600; text-decoration: none; padding: 6px 12px;
-            border: 1px solid var(--line-strong); border-radius: 11px; color: var(--teal-dark); flex: none; }
-
-/* 첫 화면 */
-.hero { padding-top: 20px; }
-.hero-card { background: var(--panel); border-radius: 22px; padding: 22px 16px 18px; }
-@media (min-width: 720px) { .hero-card { padding: 40px 44px 36px; } }
+body { margin: 0; background: #fff; color: var(--ink-2); font-family: var(--sans); word-break: keep-all; }
+.wrap { max-width: 1040px; margin: 0 auto; padding: 20px 16px; }
+@media (min-width: 720px) { .wrap { padding: 40px 24px; } }
+.hero-card { background: var(--panel); border-radius: 22px; padding: 22px 16px; }
+@media (min-width: 720px) { .hero-card { padding: 40px 44px; } }
 .hero-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-.mono-label { font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
-              color: var(--teal); font-weight: 500; }
-.pill { display: inline-flex; align-items: center; gap: 7px; font-size: 12.5px; font-weight: 600;
-        padding: 3px 11px; border-radius: 999px; background: var(--card); border: 1px solid var(--line-strong);
-        color: var(--ink-2); }
+.mono-label { font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; color: var(--teal); }
+.pill { display: inline-flex; align-items: center; gap: 7px; font-size: 12.5px; font-weight: 600; padding: 3px 11px;
+        border-radius: 999px; background: #fff; border: 1px solid var(--line-strong); }
 .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); }
 .hero-title { margin: 0; color: var(--ink); font-weight: 800; letter-spacing: -0.03em; line-height: 1.2;
               font-size: clamp(27px, 6.4vw, 46px); text-wrap: balance; }
-.hero-sub { margin: 10px 0 18px; font-size: 1.02em; text-wrap: pretty; }
-
-/* 그림 틀과 영상 자리 */
-.frame { margin: 0; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px; }
-@media (min-width: 720px) { .frame { padding: 20px 24px; } }
-.band .frame { border-color: var(--line-strong); }
-.frame figcaption { font-size: 15px; line-height: 1.6; margin-top: 10px; text-wrap: pretty; }
-.media { position: relative; aspect-ratio: 16 / 9; background: var(--panel); border-radius: 8px; overflow: hidden; }
-.media video, .media img { display: block; width: 100%; height: 100%; object-fit: contain; background: #000; }
-.media.empty { border: 1.5px dashed var(--line-strong); background: var(--panel); }
-.media.empty::after { content: attr(data-label); position: absolute; inset: 0; display: flex; align-items: center;
-                      justify-content: center; padding: 12px; text-align: center; font-size: 14px; color: var(--ink-3); }
-
-/* 핵심 수치 카드 */
-.stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 16px 0 8px; }
-@media (min-width: 900px) { .stats { grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 24px 0 12px; } }
-.stat { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 14px; }
-.stat-value { font-size: clamp(28px, 7vw, 40px); font-weight: 800; color: var(--teal-dark); letter-spacing: -0.03em; line-height: 1.1; }
-.stat-value small { font-size: 0.5em; font-weight: 700; margin-left: 3px; }
-.stat-name { font-size: 13.5px; font-weight: 700; color: var(--teal); margin-top: 6px; }
-.stat-desc { font-size: 13.5px; color: var(--ink-3); line-height: 1.45; margin-top: 4px; }
-
-/* 섹션 */
-.section { padding: 44px var(--gutter); }
-.band { background: var(--panel); padding: 44px 0; margin-top: 28px; }
-@media (min-width: 720px) { .section, .band { padding-top: 64px; padding-bottom: 64px; } }
-.sec-title { margin: 0 0 10px; color: var(--teal-dark); font-weight: 800; letter-spacing: -0.02em;
-             font-size: clamp(23px, 4.6vw, 32px); }
-.sec-num { color: var(--teal); margin-right: 12px; }
-.lead { margin: 0 0 20px; font-size: 1.04em; text-wrap: pretty; }
-.block-title { font-weight: 700; color: var(--ink); }
-
-/* 파이프라인 단계 */
-.steps { list-style: none; margin: 0 0 16px; padding: 0; display: grid; gap: 10px; }
-.step { display: grid; grid-template-columns: 40px 1fr auto; gap: 12px; align-items: start;
-        background: var(--card); border: 1px solid var(--line-strong); border-radius: 14px; padding: 14px; }
-.step-num { width: 40px; height: 40px; border-radius: 12px; background: var(--panel); border: 1px solid var(--line);
-            display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--teal); }
-.step-where { font-size: 12.5px; font-weight: 700; color: var(--teal); }
-.step-name { font-weight: 700; color: var(--ink); line-height: 1.45; }
-.step-desc { font-size: 14.5px; line-height: 1.55; margin-top: 2px; }
-.step-ms { font-weight: 800; color: var(--teal-dark); white-space: nowrap; font-size: 15px; padding-top: 2px; }
-.step-ms.na { color: var(--ink-3); font-weight: 600; }
-
-/* 지연 막대: 단계별 구간, 1초 목표선 */
-.latency-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 10px; }
-.latency-total { font-weight: 800; color: var(--teal-dark); }
-.latency-bar { position: relative; height: 34px; border-radius: 6px; background: var(--panel); display: flex; overflow: visible; }
-.latency-bar .seg { height: 100%; border-right: 2px solid var(--card); }
-.latency-bar .seg:last-of-type { border-right: 0; }
-.latency-bar .budget { position: absolute; top: -6px; bottom: -6px; border-left: 2px dashed var(--ink-3); }
-.latency-bar.empty::after { content: "측정 전"; position: absolute; inset: 0; display: flex; align-items: center;
-                            justify-content: center; font-size: 14px; color: var(--ink-3); }
-.latency-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 10px; font-size: 13.5px; }
-.latency-legend span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 3px;
-                               margin-right: 6px; background: var(--c); vertical-align: -1px; }
-
-/* 영상 모음 */
-.gallery { display: grid; gap: 14px; }
-@media (min-width: 900px) { .gallery { grid-template-columns: repeat(2, 1fr); } .gallery .frame:first-child { grid-column: 1 / -1; } }
-
-/* 측정 조건 */
-.conds { display: grid; grid-template-columns: 1fr; gap: 0; margin: 0; background: var(--card);
-         border: 1px solid var(--line-strong); border-radius: 14px; overflow: hidden; }
-.conds div { display: grid; grid-template-columns: 1fr; padding: 12px 16px; border-top: 1px solid var(--line); }
-.conds div:first-child { border-top: 0; }
-@media (min-width: 720px) { .conds div { grid-template-columns: 160px 1fr; gap: 16px; } }
-.conds dt { font-weight: 700; color: var(--ink); }
-.conds dd { margin: 0; }
-.conds dd.na { color: var(--ink-3); }
-
-.foot { border-top: 1px solid var(--line); padding: 24px 0 40px; font-size: 13.5px; color: var(--ink-3); }
