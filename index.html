@@ -2,34 +2,261 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>테니스 고글 데모</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>테니스 타점 복원 데모</title>
+  <meta name="description" content="공개 고속 테니스 영상에서 30 fps 프레임만 사용해 AI로 타점을 복원하고, 고속 원본의 실제 타점과 비교한 데모">
+  <meta name="color-scheme" content="light dark">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="테니스 타점 복원 데모">
+  <meta property="og:description" content="30 fps 영상에 찍히지 않은 타점을 AI로 복원 · 고속 원본의 실제 타점과 비교">
+  <meta property="og:url" content="https://leehw78.github.io/tennis-goggle-demo/">
+  <meta property="og:image" content="https://leehw78.github.io/tennis-goggle-demo/static/media/hero_poster.jpg">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23102a31'/%3E%3Ccircle cx='16' cy='16' r='7.5' fill='none' stroke='%23d4e34a' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="preload" as="image" href="static/media/hero_poster.jpg" fetchpriority="high">
+  <link rel="stylesheet" href="static/css/site.css">
+  <!-- 글꼴 CSS는 받은 뒤에 적용한다. 응답이 늦어도 첫 화면을 막지 않는다 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=42dot+Sans:wght@300..800&family=JetBrains+Mono:wght@500&display=swap">
-  <link rel="stylesheet" href="static/css/site.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=42dot+Sans:wght@300..800&family=JetBrains+Mono:wght@500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=42dot+Sans:wght@300..800&family=JetBrains+Mono:wght@500&display=swap"></noscript>
 </head>
 <body>
+<div class="page">
   <header class="nav">
-    <div class="wrap nav-row">
+    <div class="inner nav-row">
       <span class="nav-title">스마트 고글 테니스 타점 피드백</span>
       <a class="nav-link" href="https://docs.google.com/document/d/1kMlc_bKT2qU10QjpsPrCPan1Yiwdge09Nvi5vBsQoP4/edit?usp=sharing" target="_blank" rel="noopener">참고문헌</a>
     </div>
   </header>
 
-  <main>
-    <section class="wrap hero">
+  <main class="inner">
+    <section class="hero" aria-labelledby="hero-title">
       <div class="hero-card">
-        <div class="hero-meta">
-          <span class="mono-label">DEMO</span>
-          <span class="pill"><span class="dot"></span>준비 중</span>
+        <div class="hero-head">
+          <div class="hero-meta">
+            <span class="mono-label">DEMO</span>
+          </div>
+          <h1 id="hero-title">30&nbsp;fps 영상에 찍히지 않은 타점을 AI로 복원</h1>
+          <ul class="bullets hero-points">
+            <li>포스터의 핵심 설계 ‘프레임 사이 타점 복원’&#8288;을 공개 고속 영상으로 사전 검증</li>
+            <li>30&nbsp;fps 프레임만으로 AI가 타점 추정 → 고속 원본의 실제 타점과 비교</li>
+            <li>타구 <b><span data-k="n_strokes"></span>개 중 <span data-k="n_within10_strokes"></span>개</b>에서 포스터 목표(오차 10&nbsp;cm 이내) 달성, <span class="nw">오차 중앙값 <b><span data-k="m_med"></span>&nbsp;cm</b></span></li>
+          </ul>
         </div>
-        <h1 class="hero-title">타점 정확도를 소리로 피드백하는 테니스 고글</h1>
-        <figure class="frame">
-          <div class="media empty"></div>
+
+        <figure class="hero-figure">
+          <div class="video-box is-playing" id="hero-video-box" style="background-image: url(static/media/hero_poster.jpg)">
+            <video id="hero-video" src="static/media/hero.mp4" poster="static/media/hero_poster.jpg" muted autoplay loop playsinline preload="auto" aria-label="대표 영상: 30 fps 영상, AI 타점 복원, 고속 원본 검증"></video>
+            <button type="button" class="play-btn" id="hero-play" aria-label="영상 일시 정지">
+              <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+              <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>
+            </button>
+          </div>
+          <figcaption>
+            <span class="cap-line"><span class="nw">① 30&nbsp;fps 프레임 7장</span> → <span class="nw">② 공 검출(라임색 고리)·추정 타점(십자)</span> → <span class="nw">③ 1000&nbsp;fps 원본의 실제 타점(흰 고리)</span></span>
+            <span class="cap-line"><span data-if="hero"><span data-k="hero_label"></span><span data-k="hero_rank"></span> · </span><span class="nw">영상 출처: HowToSkillHub</span></span>
+          </figcaption>
         </figure>
+
+        <div class="hero-numbers">
+          <div class="stats">
+            <div class="stat">
+              <div class="stat-label">복원 없음</div>
+              <div class="stat-value"><span data-k="b0_med"></span><small>cm</small></div>
+              <div class="stat-sub">임팩트에 가장 가까운 30&nbsp;fps 프레임의 공 위치</div>
+            </div>
+            <div class="stat stat-main">
+              <div class="stat-label">AI 복원</div>
+              <div class="stat-value"><span data-k="m_med"></span><small>cm</small></div>
+              <div class="stat-sub">30&nbsp;fps 영상만 사용&nbsp;· 임팩트 시각을 알면 <span class="nw"><span data-k="known_med"></span>&nbsp;cm</span></div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">포스터 목표</div>
+              <div class="stat-value">10<small>cm</small></div>
+              <div class="stat-sub">타구 <span data-k="n_strokes"></span>개 중 <span data-k="n_within10_strokes"></span>개 달성&nbsp;· <span data-k="n_det_failed"></span>개는 공 검출 실패</div>
+            </div>
+          </div>
+          <p class="note">값은 타구 <span data-k="n_strokes"></span>개의 중앙값 · 오차: 추정 타점과 실제 타점 사이의 거리(화면 평면 기준)</p>
+        </div>
       </div>
     </section>
+
+    <section class="section" id="scrub" aria-labelledby="scrub-title">
+      <div class="scrubber">
+        <div class="scrub-side">
+          <h2 id="scrub-title">직접 넘겨 보기</h2>
+          <ul class="bullets">
+            <li>막대를 밀어 고속 원본을 한 장씩 확인</li>
+            <li>라임색 눈금: 30&nbsp;fps 카메라의 촬영 시점</li>
+            <li>임팩트는 눈금과 눈금 사이에서 발생</li>
+          </ul>
+          <div class="chips" role="radiogroup" aria-label="타구 고르기" id="scrub-chips"></div>
+        </div>
+        <div class="player">
+          <div class="viewer">
+            <canvas id="scrub-canvas" width="1280" height="960" role="img" aria-label="고속 원본 프레임"></canvas>
+          </div>
+          <div class="track">
+            <div class="ticks" id="scrub-ticks" aria-hidden="true"></div>
+            <input type="range" id="scrub-range" min="0" max="0" step="1" value="0" aria-label="고속 원본 프레임 넘기기">
+          </div>
+          <div class="readout" aria-live="polite">
+            <span id="scrub-time"></span>
+            <span class="badge30" id="scrub-badge" hidden>30&nbsp;fps 프레임</span>
+          </div>
+          <div class="controls">
+            <button type="button" class="toggle" id="tog-ai" aria-pressed="true"><span class="ico ico-ai" aria-hidden="true"></span>AI 추정 타점</button>
+            <button type="button" class="toggle" id="tog-truth" aria-pressed="false"><span class="ico ico-truth" aria-hidden="true"></span>실제 타점</button>
+            <button type="button" class="step30" id="step30">30&nbsp;fps 프레임만 보기</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="how-title">
+      <h2 id="how-title">검증 방법</h2>
+      <ol class="steps">
+        <li>
+          <h3>30&nbsp;fps 변환</h3>
+          <ul class="bullets">
+            <li>고속 영상에서 1/30초 간격의 프레임만 사용</li>
+            <li>프레임 추출 위치를 바꿔 가며 타구당 <span class="nw"><span data-k="phases_min"></span>–<span data-k="phases_max"></span>회</span> 반복</li>
+          </ul>
+        </li>
+        <li>
+          <h3>공 검출</h3>
+          <ul class="bullets">
+            <li>포스터가 인용한 WASB [7]&#8288;를 추가 학습 없이 사용</li>
+            <li>근접 촬영 영상은 모델 입력에 맞게 축소</li>
+          </ul>
+        </li>
+        <li>
+          <h3>타점 복원</h3>
+          <ul class="bullets">
+            <li>임팩트 전 4장, 후 3장의 공 위치로 임팩트 순간의 공 위치 추정</li>
+            <li>소형 Transformer(매개변수 약&nbsp;10만&nbsp;개)</li>
+            <li>물리 시뮬레이션 타구 2,400만 개로 학습, 실제 타구는 미사용</li>
+          </ul>
+        </li>
+        <li>
+          <h3>실제 타점과 비교</h3>
+          <ul class="bullets">
+            <li>고속 원본의 모든 프레임에서 공 궤적을 추적해 실제 타점 계산</li>
+            <li>오차 = 추정 타점과 실제 타점 사이의 거리</li>
+          </ul>
+        </li>
+      </ol>
+    </section>
+
+    <section class="section" aria-labelledby="res-title">
+      <h2 id="res-title">결과</h2>
+      <p class="res-msg"><b>임팩트가 두 프레임 사이 어디에서 일어나도 AI 복원 오차는 일정하게 낮음</b></p>
+      <div class="res-main">
+        <div class="chart-card">
+          <div class="chart" id="trend"></div>
+          <table class="sr-only" id="trend-table">
+            <caption>임팩트 위치 구간별 오차 중앙값</caption>
+            <thead><tr><th scope="col">임팩트 위치</th><th scope="col">복원 없음</th><th scope="col">AI 복원</th></tr></thead>
+            <tbody></tbody>
+          </table>
+          <p class="chart-note">공을 검출한 타구 <span data-k="n_det_ok"></span>개 기준 · 선은 중앙값, 띠는 사분위 범위</p>
+        </div>
+        <ul class="bullets res-points">
+          <li><b>복원 없음</b>: 임팩트가 두 프레임의 중간에 가까울수록 오차 증가(최대 약 <span class="nw"><span data-k="trend_b0_peak"></span>&nbsp;cm</span>)</li>
+          <li><b>AI 복원</b>: 임팩트 위치와 관계없이 <span class="nw"><span data-k="trend_ai_range"></span>&nbsp;cm</span></li>
+          <li data-if="known_all10"><b>임팩트 시각을 알면</b>(타구음의 역할): 공을 검출한 타구 <span data-k="n_det_ok"></span>개의 모든 경우에서 10&nbsp;cm 이내</li>
+          <li><b>타구 <span data-k="n_det_failed"></span>개는 공 검출 실패</b>로 복원 불가(오차 약 <span class="nw"><span data-k="failed_med_m"></span>&nbsp;m</span>) → 정확도는 공 검출에 좌우</li>
+        </ul>
+      </div>
+      <details class="table-details">
+        <summary>타구별 수치</summary>
+        <div class="table-scroll">
+          <table class="data-table" id="stroke-table">
+            <caption class="sr-only">타구별 오차 중앙값(cm)</caption>
+            <thead><tr><th scope="col">타구</th><th scope="col">복원 없음</th><th scope="col">AI 복원</th><th scope="col">AI 복원 +<br>임팩트 시각</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <p class="note">단위 cm · 타구별 중앙값(프레임 추출 위치를 바꾼 <span class="nw"><span data-k="phases_min"></span>–<span data-k="phases_max"></span>회</span>) · * 공 미검출로 일부 경우에서만 계산된 값</p>
+      </details>
+
+      <h3 class="sub">타구별 장면</h3>
+      <p class="legend" aria-label="범례">
+        <span class="lg"><i class="lg-ico lg-det" aria-hidden="true"></i>라임색 고리 = 검출된 공</span>
+        <span class="lg"><i class="lg-ico lg-est" aria-hidden="true"></i>십자 = 추정 타점</span>
+        <span class="lg"><i class="lg-ico lg-truth" aria-hidden="true"></i>흰 고리 = 실제 타점</span>
+      </p>
+      <div class="gallery" id="gallery" tabindex="0" role="region" aria-label="타구별 장면. 옆으로 넘겨 봅니다"></div>
+      <p class="note">장면은 타구마다 오차가 그 타구의 중앙값에 가까운 경우<span data-if="hidden"> · <span data-k="hidden_labels"></span><span data-if="hidden_failed">(공 검출 실패)</span>는 유소년 선수 영상이라 장면 미게재</span></p>
+    </section>
+
+    <section class="section" aria-labelledby="limits-title">
+      <h2 id="limits-title">검증하지 않은 것과 그 이유</h2>
+      <ol class="limits">
+        <li>
+          <h3>고글(1인칭) 시점</h3>
+          <ul class="bullets">
+            <li>실제 타점을 알 수 있는 1인칭 고속 영상은 공개 자료에서 찾지 못함</li>
+            <li>옆에서 촬영한 영상으로 대신 검증</li>
+            <li>개발 절차 1단계(고글·고속 카메라 동시 촬영)&#8288;에서 확보 예정</li>
+          </ul>
+        </li>
+        <li>
+          <h3>타구음으로 임팩트 시각 검출</h3>
+          <ul class="bullets">
+            <li>공개 고속 영상에는 임팩트와 동기화된 소리가 없음</li>
+            <li>타구음 검출은 선행연구 근거 [10] 보유 → 남은 과제인 타점 복원을 먼저 검증</li>
+            <li>‘임팩트 시각을 알면’ 결과는 고속 원본의 시각에 0.5&nbsp;ms 오차를 넣어 계산</li>
+            <li>영상만으로도 대부분 10&nbsp;cm 이내 → 타구음은 더 어려운 실제 고글 영상에 대비해 유지</li>
+          </ul>
+        </li>
+        <li>
+          <h3>카메라에서 공까지의 거리</h3>
+          <ul class="bullets">
+            <li>옆에서 촬영한 영상이라 화면 평면 안의 위치만 평가</li>
+            <li>거리 추정은 공 크기를 이용하는 선행연구 [9] 근거</li>
+          </ul>
+        </li>
+        <li>
+          <h3>공 번짐(모션 블러)</h3>
+          <ul class="bullets">
+            <li>고속 영상은 노출이 짧아 번짐이 거의 없음</li>
+            <li>실제 30&nbsp;fps 촬영의 번짐은 1단계 데이터로 확인 필요</li>
+          </ul>
+        </li>
+        <li>
+          <h3>공 검출 모델의 추가 학습</h3>
+          <ul class="bullets">
+            <li>중계 영상용 공개 모델을 그대로 사용해 타구 <span data-k="n_det_failed"></span>개에서 검출 실패</li>
+            <li>개발 절차 2단계에서 고글 영상으로 학습 예정</li>
+          </ul>
+        </li>
+        <li>
+          <h3>더 많은 타구와 별도 시험 데이터</h3>
+          <ul class="bullets">
+            <li>실제 타점을 계산할 수 있는 공개 영상이 적음</li>
+            <li>후보 <span data-k="n_candidates"></span>개 중 <span data-k="n_strokes"></span>개 사용(영상 <span data-k="n_videos"></span>편, 대부분 연습 타구)</li>
+            <li>검출 후처리 규칙도 이 타구들로 조정 → 새 영상에서는 정확도가 낮을 수 있음</li>
+          </ul>
+        </li>
+      </ol>
+    </section>
   </main>
+
+  <footer class="foot">
+    <div class="inner">
+      <h2 class="foot-title">영상 출처와 이용</h2>
+      <p class="foot-lead">YouTube 공개 영상 <span data-k="n_videos"></span>편을 교육·연구 목적으로 출처를 밝혀 일부 인용(저작권법 제28조)</p>
+      <ul class="sources" id="sources"></ul>
+      <ul class="foot-list">
+        <li>공 검출: WASB-SBDT (Tarashima et al., BMVC 2023), 공개 코드·모델(MIT 라이선스)</li>
+        <li>타점 복원 모델과 평가 코드는 이 데모를 위해 직접 제작</li>
+        <li>과학기술글쓰기 연구포스터 「스마트 고글을 활용한 테니스 타점 측정 및 실시간 피드백 시스템」 데모 · <span class="nw" data-k="built"></span></li>
+      </ul>
+    </div>
+  </footer>
+</div>
+<script src="static/js/data.js"></script>
+<script src="static/js/app.js"></script>
 </body>
 </html>
